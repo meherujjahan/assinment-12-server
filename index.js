@@ -17,7 +17,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
  async function run() {
     try {
       await client.connect();
-    // console.log('client connected', client);
+     //console.log('client connected', client);
 
         const database = client.db('baby_lotion');
         const serCollection = database.collection('services');
@@ -30,11 +30,12 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             const cursor = serCollection.find({});
             const services = await cursor.toArray();
             res.send(services)
+            
         })
         // get one data from service
         app.get('/services/:id', async (req, res) => {
             const id = req.params.id;
-            // console.log(id)
+           // console.log(id)
             const query = { _id: ObjectId(id) };
             const purchase = await serCollection.findOne(query)
             res.json(purchase)
@@ -43,7 +44,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         app.post('/purchases', async (req, res) => {
             const purchaze = req.body;
             const result = await purchaseCollection.insertOne(purchaze)
-            console.log(result)
+            //console.log(result)
             res.json(result)
         })
         //  find all booking data
@@ -56,7 +57,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await purchaseCollection.findOne(query);
-            console.log(result)
+            //console.log(result)
             res.json(result)
         })
 
@@ -73,7 +74,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         app.post('/users', async (req, res) => {
             const users = req.body;
             const result = await userCollection.insertOne(users)
-            console.log(result)
+            //console.log(result)
             res.json(result)
         })
         // admin create 
@@ -83,7 +84,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             const filter = { email: user.email }
             const updateDoc = { $set: { role: 'admin' } }
             const result = await userCollection.updateOne(filter, updateDoc)
-            console.log(result)
+            //console.log(result)
             res.json(result)
         })
 
@@ -105,14 +106,14 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             const id = req.params.id;
             const query = { _id: ObjectId(id) }
             const result = await purchaseCollection.deleteOne(query)
-            console.log('delete user', result)
+            //console.log('delete user', result)
             res.json(result)
         })
         // rating er jonno insert kora 1 ta data
         app.post('/rating', async (req, res) => {
             const rates = req.body;
             const result = await ratingCollection.insertOne(rates)
-            console.log(result)
+           // console.log(result)
             res.json(result)
         })
         // find rating
@@ -120,14 +121,14 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             const ratingData = ratingCollection.find({});
             const rateResult = await ratingData.toArray();
             res.send(rateResult)
-            console.log(rateResult)
+           // console.log(rateResult)
         })
         // delete purchases data
         app.delete('/purch/:id', async (req, res) => {
             const id = req.params.id;
             const deleteQuery = { _id: ObjectId(id) }
             const results = await purchaseCollection.deleteOne(deleteQuery)
-            console.log('deleted', results)
+           // console.log('deleted', results)
             res.json(results)
         })
         // pending to approved
@@ -141,7 +142,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             };
             const result = await purchaseCollection.updateOne(query, course)
             res.json(result)
-            console.log(result)
+            //console.log(result)
         })
         // again insert data 
         app.post('/services', async (req, res) => {
@@ -159,21 +160,9 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             //console.log('deleted', results)
             res.json(results)
         })
-        // for payment
-        // app.post('create-payment-intent', async (req, res) => {
-        //     const paymentInfo = req.body;
-        //     const amount = paymentInfo.price * 100;
-        //     const paymentIntent = await stripe.paymentIntents.create({
-        //         currency: 'usd',
-        //         amount: amount,
-        //         payment_method_types: ['card']
-        //     });
-        //     res.json({ clientSecret: paymentIntent.client_secret })
-
-        // })
 
     } finally {
-      await client.close();
+      //await client.close();
     }
   }
   run().catch(console.dir);
